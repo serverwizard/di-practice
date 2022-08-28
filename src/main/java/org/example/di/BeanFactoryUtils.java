@@ -18,19 +18,4 @@ public class BeanFactoryUtils {
         }
         return injectedConstructors.iterator().next();
     }
-
-    public static Class<?> findConcreteClass(Class<?> injectedClazz, Set<Class<?>> preInstanticateBeans) {
-        if (!injectedClazz.isInterface()) {
-            return injectedClazz;
-        }
-
-        for (Class<?> clazz : preInstanticateBeans) {
-            Set<Class<?>> interfaces = Set.of(clazz.getInterfaces());
-            if (interfaces.contains(injectedClazz)) {
-                return clazz;
-            }
-        }
-
-        throw new IllegalStateException(injectedClazz + "인터페이스를 구현하는 Bean이 존재하지 않습니다.");
-    }
 }

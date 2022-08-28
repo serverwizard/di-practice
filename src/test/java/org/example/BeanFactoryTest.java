@@ -2,7 +2,6 @@
 package org.example;
 
 import org.example.annotation.Controller;
-import org.example.annotation.Repository;
 import org.example.annotation.Service;
 import org.example.di.BeanFactory;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,7 +23,7 @@ public class BeanFactoryTest {
     @SuppressWarnings("unchecked")
     public void setup() {
         reflections = new Reflections("org.example");
-        Set<Class<?>> preInstantiatedClazz = getTypesAnnotatedWith(Controller.class, Service.class, Repository.class);
+        Set<Class<?>> preInstantiatedClazz = getTypesAnnotatedWith(Controller.class, Service.class);
         beanFactory = new BeanFactory(preInstantiatedClazz);
     }
 
@@ -39,6 +38,5 @@ public class BeanFactoryTest {
         UserController userController = beanFactory.getBean(UserController.class);
 
         assertNotNull(userController.getUserService());
-        assertNotNull(userController.getUserService().getUserRepository());
     }
 }

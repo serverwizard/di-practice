@@ -22,13 +22,12 @@ public class BeanFactory {
         }
     }
 
-    private Object createInstance(Class<?> clazz) {
-        Class<?> concreteClass = BeanFactoryUtils.findConcreteClass(clazz, preInstantiatedBeans);
+    private Object createInstance(Class<?> concreteClass) {
         Constructor<?> constructor = findConstructor(concreteClass);
         List<Object> parameters = new ArrayList<>();
 
         for (Class<?> typeClass : Objects.requireNonNull(constructor).getParameterTypes()) {
-            parameters.add(getParameterByClass(typeClass));
+            parameters.add(getBean(typeClass));
         }
 
         try {
@@ -46,15 +45,6 @@ public class BeanFactory {
         }
 
         return concreteClass.getConstructors()[0];
-    }
-
-    private Object getParameterByClass(Class<?> typeClass) {
-        Object bean = getBean(typeClass);
-
-        if (Objects.nonNull(bean)) {
-            return bean;
-        }
-        return createInstance(typeClass);
     }
 
     public <T> T getBean(Class<T> requiredType) {
